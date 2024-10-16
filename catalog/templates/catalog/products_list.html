@@ -1,0 +1,37 @@
+{% extends 'catalog/home.html' %}
+{% load my_tags %}
+{% block content %}
+<div class="d-grid gap-2 col-2 mx-auto mb-4">
+    {% if perms.catalog.add_product %}
+    <a href="{% url 'catalog:product_create' %}" type="button" class="btn btn-lg btn-block btn-primary">Создать
+        продукт</a>
+    {% endif %}
+</div>
+<div class="row text-center">
+    {% for product in object_list %}
+    <div class="col-3">
+        <div class="card mb-4 box-shadow">
+            <img src="{{ product.image | media_filter }}">
+
+            <div class="card-body">
+                <h1 class="card-title pricing-card-title">{{ product.name }}</h1>
+                <ul class="list-unstyled mt-3 mb-4 text-start m-3">
+                    <li>Описание: {{ product.description | truncatechars_html:100 }}</li>
+                </ul>
+                <a class="btn btn-primary" href="{% url 'catalog:product_detail' product.pk %}"
+                   role="button">Подробнее</a>
+                <div class="card m-4 box-shadow">
+                    {% for version in product.versions.all %}
+                        {% if version.status_version %}
+                            <p>Версия: {{ version.num_version }} Название: {{ version.name_version }}</p>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

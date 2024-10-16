@@ -1,0 +1,37 @@
+{% extends 'catalog/home.html' %}
+{% load my_tags %}
+{% block content %}
+<div class="row text-center">
+    <div class="col-3">
+        <div class="card mb-4 box-shadow">
+            <img src="{{ product.image | media_filter }}">
+            <div class="card-body">
+                <h1 class="card-title pricing-card-title">{{ product.name }}</h1>
+                <ul class="list-unstyled mt-3 mb-4 text-start m-3">
+                    <li>Описание: {{ product.description }}</li>
+                    <li>Категория: {{ product.category }}</li>
+                    <li>Цена: {{ product.price_pay }}</li>
+                    <li>Дата изменения: {{ product.manufactured_at }}</li>
+                </ul>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-lg btn-block btn-outline-primary">Купить</button>
+                </div>
+                {% if perms.catalog.delete_product %}
+                <div class="btn-group">
+                    <a href="{% url 'catalog:product_delete' object.pk %}" type="button"
+                       class="btn btn-lg btn-danger" style="float:right">Удалить
+                    </a>
+                </div>
+                {% endif %}
+                <div class="btn-group">
+                    {% if perms.catalog.can_edit_is_published and perms.catalog.can_edit_description and perms.catalog.can_edit_category or user == catalog.owner %}
+                    <a href="{% url 'catalog:product_update' object.pk %}" type="button"
+                       class="btn btn-lg m-3  btn-outline-primary" style="float:right">Редактировать
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
