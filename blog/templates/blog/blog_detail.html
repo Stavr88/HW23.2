@@ -1,0 +1,22 @@
+{% extends 'catalog/home.html' %}
+{% load my_tags %}
+{% block content %}
+<div class="container">
+    <div class="row text-center">
+        <div class="col-10">
+            <div class="card mb-4 box-shadow">
+                <div class="card-header">
+                    <h4 class="my-0 font-weight-normal">{{ object.title }} </h4>
+                </div>
+                <div class="card-body">
+                    <p class="card-text"> Ссылка: {{ object.slug }}</p>
+                    <p class="card-text">Содержимое: {{ object.content }}</p>
+                    <p class="card-text">Дата создания: {{ object.created_at }}</p>
+                    <p class="card-text">Кол-во просмотров: {{ object.views_count }}</p>
+                    <a class="btn btn-primary" href="{% url 'blog:blog_list' %}" role="button">Назад</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

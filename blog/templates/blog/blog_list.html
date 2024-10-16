@@ -1,0 +1,39 @@
+{% extends 'catalog/home.html' %}
+{% load my_tags %}
+{% block content %}
+<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+    <h1 class="display-4">Блоги наших покупателей</h1>
+</div>
+<div class="album py-5 bg-body-tertiary">
+    <div class="d-grid gap-2 col-2 mx-auto mb-4">
+        <a href="{% url 'blog:blog_create' %}" type="button" class="btn btn-lg btn-block btn-primary">Создать блог</a>
+    </div>
+    <div class="container">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+            {% for object in object_list %}
+            {% if object.is_published %}
+            <div class="col">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h4 class="card-text text-center">{{ object.title }}</h4>
+                        <img class="card-img-top mb-4" src="{{ object.image | media_filter }}">
+                        <p class="card-text">{{ object.body | truncatechars:100 }}</p>
+                        <div class="d-grid gap-2  mx-auto">
+                            <a href="{% url 'blog:blog_detail' object.pk %}" class="btn btn-sm btn-primary">Посмотреть</a>
+                            <a href="{% url 'blog:blog_update' object.pk %}" class="btn btn-sm btn-secondary">Изменить</a>
+                        </div>
+                        <a href="{% url 'blog:blog_delete' object.pk %}" type="button"
+                           class="btn btn-md mt-3 btn-danger" style="float:right">Удалить</a>
+                        <p class="text-body-secondary text-sm"></p>
+                        <figcaption class="blockquote-footer mt-4">
+                            Создано: {{ object.created_at }}
+                        </figcaption>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}
