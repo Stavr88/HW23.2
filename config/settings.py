@@ -28,7 +28,7 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 # SECRET_KEY = "django-insecure-yy)!fc+wvm5(c1lk&+5a!m4p^o3h$7)92)haz+@b13sbca)ie4"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv("DEBUG", False) == "True"
 
 ALLOWED_HOSTS = []
 
@@ -88,8 +88,8 @@ DATABASES = {
         "USER": os.getenv("USER"),
         "PASSWORD": os.getenv("PASSWORD"),
         # "HOST": "db",
-        "HOST": "127.0.0.1",
-        "PORT": 5433,
+        "HOST": os.getenv("HOST"),
+        "PORT": os.getenv("PORT"),
     }
 }
 
@@ -156,11 +156,11 @@ EMAIL_USE_SSL = os.getenv("EMAIL_USE_SSL", False) == "True"
 SERVER_EMAIL = EMAIL_HOST_USER
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
-CACHE_ENABLED = True
+CACHE_ENABLED = os.getenv("CACHE_ENABLED", False) == "True"
 if CACHE_ENABLED:
     CACHES = {
         "default": {
             "BACKEND": "django.core.cache.backends.redis.RedisCache",
-            "LOCATION": os.getenv("LOCATION")
+            "LOCATION": os.getenv("CACHE_LOCATION")
         }
     }
